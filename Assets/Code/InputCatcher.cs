@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Code
 {
-    class InputCatcher : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDragHandler
+    class InputCatcher : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDragHandler,IPointerClickHandler
     {
         public static InputCatcher Instance;
 
@@ -25,6 +25,9 @@ namespace Assets.Code
         private Vector2 startTouchPosition;
         private float maxRadiusPx;
 
+        private bool IsDigging = false;
+
+
         private void Awake()
         {
             Instance = this;
@@ -35,6 +38,9 @@ namespace Assets.Code
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (IsDigging)
+                return;
+
             startTouchPosition = eventData.position;
 
             transform = GetComponent<RectTransform>();
@@ -43,6 +49,8 @@ namespace Assets.Code
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (IsDigging)
+                return;
             //if (eventData.delta.magnitude > deadZone)
             //onMove.Invoke(eventData.delta.normalized);
 
@@ -56,7 +64,21 @@ namespace Assets.Code
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (IsDigging)
+                return;
+
             onStop.Invoke();
         }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            
+        }
+
+        public void OnDigStart()
+        {
+            IsDigging = transform;
+        }
+
     }
 }
