@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Code
 {
-    class InputCatcher : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDragHandler,IPointerClickHandler
+    class InputCatcher : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
     {
         public static InputCatcher Instance;
 
@@ -25,12 +25,14 @@ namespace Assets.Code
         private Vector2 startTouchPosition;
         private float maxRadiusPx;
 
-        private bool IsDigging = false;
-
+        public bool IsDigging { get; set; }
 
         private void Awake()
         {
             Instance = this;
+
+            transform = GetComponent<RectTransform>();
+            maxRadiusPx = maxRadiusWidthPercent * transform.rect.width / 2f;
 
             onMove = new OnMove();
             onStop = new OnStop();
@@ -42,14 +44,11 @@ namespace Assets.Code
                 return;
 
             startTouchPosition = eventData.position;
-
-            transform = GetComponent<RectTransform>();
-            maxRadiusPx = maxRadiusWidthPercent * transform.rect.width / 2f;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (IsDigging)
+            if (!eventData.dragging || IsDigging)
                 return;
             //if (eventData.delta.magnitude > deadZone)
             //onMove.Invoke(eventData.delta.normalized);
@@ -64,7 +63,7 @@ namespace Assets.Code
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (IsDigging)
+            if (!eventData.dragging || IsDigging)
                 return;
 
             onStop.Invoke();
@@ -72,13 +71,8 @@ namespace Assets.Code
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            
+            if (IsDigging)
+                Player.Instance.Dig();
         }
-
-        public void OnDigStart()
-        {
-            IsDigging = transform;
-        }
-
     }
 }

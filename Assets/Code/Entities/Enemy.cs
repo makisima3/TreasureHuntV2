@@ -1,11 +1,12 @@
 ﻿using Assets.Code.CollectableObject;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Code.Entities
 {
-    class Enemy : MonoBehaviour, ICollector
+    class Enemy : MonoBehaviour, ICollector, ICanDig
     {
         [InspectorName("Pallets")]
         [SerializeField] private Transform palletPlace;
@@ -14,6 +15,8 @@ namespace Assets.Code.Entities
         [SerializeField] private CharacterController controller;
         [SerializeField] private float speed;
         [SerializeField] private GameObject colorHolder;
+
+        [SerializeField] private float digTime = 10f;
 
         public Animator animator;
         private List<Pallet> myPallets;
@@ -32,6 +35,9 @@ namespace Assets.Code.Entities
             }
         }
 
+        public float DigProgress { get; private set; }
+
+        public Transform Transform => transform;
 
         private void Awake()
         {
@@ -89,6 +95,25 @@ namespace Assets.Code.Entities
             else if (other.TryGetComponent(out Warrior warrior))
             {
                 CollectWarrior(warrior);
+            }
+        }
+
+        public void Dig()
+        {
+            animator.SetTrigger("dig");
+
+            StartCoroutine(DigDelay());
+        }
+
+        private IEnumerator DigDelay()
+        {
+            var delta = 1f / digTime;
+
+            while (DigProgress < 1)
+            {
+                DigProgress += delta;
+
+                yield return new WaitForSeconds(delta);
             }
         }
     }

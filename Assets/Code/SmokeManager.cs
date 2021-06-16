@@ -31,13 +31,15 @@ namespace Assets.Code
 
             var color = mat.color;
 
-            for (float i = 1; i >= 0; i -= 0.1f)
+            for (float i = 1; i >= -0.5f; i -= 0.1f)
             {
                 color.a = i;
                 mat.color = color;
 
                 yield return new WaitForSeconds(0.1f);
-            }            
+            }
+
+            smoke.SetActive(false);
         }
     }
 }

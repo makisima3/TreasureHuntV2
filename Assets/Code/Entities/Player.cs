@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace Assets.Code.Entities
 {
-    class Player : MonoBehaviour, ICollector
+    class Player : MonoBehaviour, ICollector,ICanDig
     {
+        public static Player Instance { get; private set; }
+
         [InspectorName("Pallets")]
         [SerializeField] private Transform palletPlace;
         [SerializeField] private float palletOffset = 0.5f;
@@ -16,6 +18,8 @@ namespace Assets.Code.Entities
         [SerializeField] private GameObject colorHolder;
 
         [SerializeField] private bool isMove;
+
+        [SerializeField] private int digTapCount = 10;
 
         public Animator animator;
         private Vector3 moveVector;
@@ -36,9 +40,14 @@ namespace Assets.Code.Entities
             }
         }
 
+        public float DigProgress { get; private set; }
+
+        public Transform Transform => transform;
 
         private void Awake()
         {
+            Instance = this;
+
             myColor = colorHolder.GetComponent<SkinnedMeshRenderer>().material.color;
 
             InputCatcher.Instance.onMove.AddListener(Move);
@@ -116,9 +125,21 @@ namespace Assets.Code.Entities
             throw new System.NotImplementedException();
         }
 
-        public void DigStart()
+        public void Dig()
         {
-            animator.SetTrigger("dig");
+            if(DigProgress <=0)
+            {
+                animator.SetTrigger("dig");
+
+                moveVector = Vector3.zero;
+            }
+
+            DigProgress += 1f / digTapCount;
+
+            if(DigProgress >= 1)
+            {
+                GameManager.Instance.Victory();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
