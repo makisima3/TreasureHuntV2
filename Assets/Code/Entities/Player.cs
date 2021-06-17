@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Assets.Code.Entities
 {
-    class Player : MonoBehaviour, ICollector,ICanDig
+    [RequireComponent(typeof(Warlord))]
+    public class Player : MonoBehaviour, ICollector, ICanDig
     {
         public static Player Instance { get; private set; }
 
@@ -15,28 +16,29 @@ namespace Assets.Code.Entities
 
         [SerializeField] private CharacterController controller;
         [SerializeField] private float speed;
-        [SerializeField] private GameObject colorHolder;
 
+        [SerializeField] private new Renderer renderer;
         [SerializeField] private bool isMove;
 
         [SerializeField] private int digTapCount = 10;
 
+        [SerializeField] private Warlord warlord;
+
+        public bool isDigging = false;
         public Animator animator;
         private Vector3 moveVector;
         private float gravity = -0.1f;
         private List<Pallet> myPallets;
-        private List<MapPart> myMapParts;
 
-        private Color myColor;
+        public Warlord Warlord => warlord;
 
         public Color MyColor
         {
-            get => myColor;
+            get => renderer.material.color;
 
             set
             {
-                colorHolder.GetComponent<SkinnedMeshRenderer>().material.color = value;
-                myColor = value;
+                renderer.material.color = value;
             }
         }
 
@@ -48,8 +50,8 @@ namespace Assets.Code.Entities
         {
             Instance = this;
 
-            myColor = colorHolder.GetComponent<SkinnedMeshRenderer>().material.color;
-
+            warlord = GetComponent<Warlord>();
+            warlord.Init(MyColor);
             InputCatcher.Instance.onMove.AddListener(Move);
             InputCatcher.Instance.onStop.AddListener(Stop);
         }
@@ -57,7 +59,6 @@ namespace Assets.Code.Entities
         private void Start()
         {
             myPallets = new List<Pallet>();
-            myMapParts = new List<MapPart>();
         }
 
         private void Update()
@@ -77,6 +78,7 @@ namespace Assets.Code.Entities
             if (!isMove)
             {
                 animator.SetTrigger("run");
+                warlord.warriors.ForEach(w => w.animator.SetTrigger("run"));
             }
             isMove = true;
 
@@ -88,6 +90,7 @@ namespace Assets.Code.Entities
         public void Stop()
         {
             animator.SetTrigger("idle");
+            warlord.warriors.ForEach(w => w.animator.SetTrigger("idle"));
             isMove = false;
             moveVector = Vector3.zero;
         }
@@ -96,7 +99,7 @@ namespace Assets.Code.Entities
         {
             pallet.transform.position = palletPlace.position + (Vector3.up * palletOffset * myPallets.Count);
             pallet.IsTaked = true;
-            pallet.MyColor = myColor;
+            pallet.MyColor = MyColor;
             pallet.transform.SetParent(transform);
 
             myPallets.Add(pallet);
@@ -122,21 +125,25 @@ namespace Assets.Code.Entities
 
         public void CollectWarrior(Warrior warrior)
         {
-            throw new System.NotImplementedException();
+            warlord.Add(warrior);
+            warrior.animator.SetTrigger("run");
         }
 
         public void Dig()
         {
-            if(DigProgress <=0)
+            isDigging = true;
+
+            if (DigProgress <= 0)
             {
                 animator.SetTrigger("dig");
+                warlord.warriors.ForEach(w => w.animator.SetTrigger("dig"));
 
                 moveVector = Vector3.zero;
             }
 
             DigProgress += 1f / digTapCount;
 
-            if(DigProgress >= 1)
+            if (DigProgress >= 1)
             {
                 GameManager.Instance.Victory();
             }
@@ -146,12 +153,13 @@ namespace Assets.Code.Entities
         {
             if (other.TryGetComponent(out Pallet pallet))
             {
-                if (pallet.MyColor == myColor && !pallet.IsTaked)
+                if (pallet.MyColor == MyColor && !pallet.IsTaked)
                     CollectPallet(pallet);
             }
             else if (other.TryGetComponent(out MapPart mapPart))
             {
-                CollectMap(mapPart);
+                if (mapPart.MyColor == MyColor)
+                    CollectMap(mapPart);
             }
             else if (other.TryGetComponent(out Warrior warrior))
             {

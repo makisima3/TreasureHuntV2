@@ -19,7 +19,7 @@ namespace Assets.Code.InteractivOgjects
                 tracker.GetComponent<DigProgressTracker>().Target = canDig;
 
                 canDig.Dig();
-
+             
                 if (canDig is Player)
                     InputCatcher.Instance.IsDigging = true;
             }

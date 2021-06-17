@@ -90,7 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   positionOffset: {x: 0, y: 770}
-  alwaysUpdate: 0
+  alwaysUpdate: 1
 --- !u!114 &8785345708179571249
 MonoBehaviour:
   m_ObjectHideFlags: 0
