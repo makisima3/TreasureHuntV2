@@ -17,8 +17,10 @@ namespace Assets.Code
         [SerializeField] private Renderer colorHolder;
 
         public List<Warrior> warriors;
-  
 
+        private List<Vector3> positions;
+
+        
         public Color MyColor
         {
             get => colorHolder.material.color;
@@ -36,11 +38,14 @@ namespace Assets.Code
         private void Awake()
         {
             warriors = new List<Warrior>();
+            positions = new List<Vector3>();
         }
-
-        public void Init(Color color)
+        Transform rotationReferencedTransform;
+        public void Init(Color color,Transform transform)
         {
             MyColor = color;
+
+            rotationReferencedTransform = transform;
         }
 
         public void Fight(Warlord otherWarlord)
@@ -52,6 +57,18 @@ namespace Assets.Code
             else
             {
                 Fight(otherWarlord, this);
+            }
+        }
+
+        private void Update()
+        {
+            int index = 0;
+            foreach (var warrior in warriors)
+            {
+                warrior.transform.position = rotationReferencedTransform.position + warrior.positionOffset;
+                warrior.transform.rotation = rotationReferencedTransform.rotation;
+
+                index++;
             }
         }
 
@@ -69,7 +86,7 @@ namespace Assets.Code
             {
                 if (Vector3.Distance(looser.transform.position, winner.transform.position) <= AttackRadius)
                 {
-                    if (looser is Player)
+                    if (looser.TryGetComponent<Player>(out var player))
                     {
                         GameManager.Instance.Lose();
                     }
@@ -94,7 +111,7 @@ namespace Assets.Code
             warriors.Add(warrior);
             warrior.Assign(this);
 
-            warrior.transform.SetParent(transform);
+            //warrior.transform.SetParent(transform);
 
             var attempts = 100;
 
@@ -110,7 +127,8 @@ namespace Assets.Code
 
                 if (CheckValidDistance(candidatePosition))
                 {
-                    warrior.transform.localPosition = candidatePosition;
+                    //warrior.transform.localPosition = candidatePosition;
+                    warrior.positionOffset = candidatePosition;
                     break;
                 }
 

@@ -8,6 +8,7 @@ namespace Assets.Code.CollectableObject
         [SerializeField] private new Renderer renderer;
         [SerializeField] private new Collider collider;
         public Animator animator;
+        public Vector3 positionOffset;
 
         public Color MyColor
         {

@@ -24,6 +24,8 @@ namespace Assets.Code.Entities
 
         [SerializeField] private Warlord warlord;
 
+        [SerializeField] private GameObject mesh;
+
         public bool isDigging = false;
         public Animator animator;
         private Vector3 moveVector;
@@ -51,7 +53,7 @@ namespace Assets.Code.Entities
             Instance = this;
 
             warlord = GetComponent<Warlord>();
-            warlord.Init(MyColor);
+            warlord.Init(MyColor, mesh.transform);
             InputCatcher.Instance.onMove.AddListener(Move);
             InputCatcher.Instance.onStop.AddListener(Stop);
         }
@@ -84,7 +86,8 @@ namespace Assets.Code.Entities
 
             moveVector = new Vector3(direction.x, 0f, direction.y) * speed * 0.1f * speedMultiplier;
             moveVector.y = gravity;
-
+            var angle = 90f - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            mesh.transform.rotation = Quaternion.Euler(Vector3.up * angle);
         }
 
         public void Stop()

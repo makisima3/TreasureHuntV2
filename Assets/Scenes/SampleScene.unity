@@ -1036,7 +1036,8 @@ MonoBehaviour:
   renderer: {fileID: 2114782077}
   isMove: 0
   digTapCount: 10
-  warlord: {fileID: 0}
+  warlord: {fileID: 337779642}
+  mesh: {fileID: 1414418100}
   isDigging: 0
   animator: {fileID: 1734860392}
 --- !u!4 &337779641
@@ -1495,7 +1496,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.5738292
+      value: 3.98
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -1505,7 +1506,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.34469098
+      value: 1.74
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -1744,7 +1745,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.5738292
+      value: 6.01
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -1754,7 +1755,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.34469098
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -1963,7 +1964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610296849}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.765432, y: -9.299614, z: 14.658895}
+  m_LocalPosition: {x: -4.4, y: -9.299614, z: 14.658895}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 595890574}
@@ -2630,7 +2631,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.5738292
+      value: 5.21
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -2640,7 +2641,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.34469098
+      value: -3.47
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -2766,7 +2767,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.5738292
+      value: 3.34
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -2776,7 +2777,7 @@ PrefabInstance:
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.34469098
+      value: -3.56
       objectReference: {fileID: 0}
     - target: {fileID: 2370348901965521851, guid: 966609e834278ce4491f096c9b294843,
         type: 3}
@@ -5626,6 +5627,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1414418100 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4544eff5dde82bc43b198d626d8193ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 157230402}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1454574192
 GameObject:
   m_ObjectHideFlags: 0
@@ -7431,7 +7438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2065799460
 MonoBehaviour:
   m_ObjectHideFlags: 0

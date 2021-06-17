@@ -54,7 +54,7 @@ namespace Assets.Code.Entities
         private void Awake()
         {
             warlord = GetComponent<Warlord>();
-            warlord.Init(MyColor);
+            warlord.Init(MyColor,transform);
         }
 
         private void Start()
