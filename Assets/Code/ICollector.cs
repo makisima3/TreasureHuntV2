@@ -7,7 +7,7 @@ public interface ICollector
 {
     void CollectPallet(Pallet pallet);
 
-    void PlacePallet(Transform place, Transform parent);
+    bool PlacePallet(Transform place, Transform parent);
 
     void CollectMap(MapPart mapPart);
 

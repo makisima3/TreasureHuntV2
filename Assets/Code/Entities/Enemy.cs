@@ -134,7 +134,7 @@ namespace Assets.Code.Entities
             myPallets.Add(pallet);
         }
 
-        public void PlacePallet(Transform place, Transform parent)
+        public bool PlacePallet(Transform place, Transform parent)
         {
             Pallet pallet = myPallets.Last();
 
@@ -143,6 +143,8 @@ namespace Assets.Code.Entities
             pallet.transform.position = place.position;
             pallet.transform.rotation = Quaternion.identity;
             pallet.transform.SetParent(parent);
+
+            return true;
         }
 
         public void CollectMap(MapPart mapPart)

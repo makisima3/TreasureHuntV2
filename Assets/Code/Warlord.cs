@@ -118,17 +118,17 @@ namespace Assets.Code
             while (true)
             {
                 var rndAngle = Random.Range(0f, 2f * Mathf.PI);
-                var candidatePosition = new Vector3()
+                var CandidateOffset = new Vector3()
                 {
                     x = Mathf.Cos(rndAngle) * spawnRadius,
                     y = warrior.transform.position.y,
                     z = Mathf.Sin(rndAngle) * spawnRadius
                 };
 
-                if (CheckValidDistance(candidatePosition))
+                if (CheckValidDistance(CandidateOffset + transform.position))
                 {
                     //warrior.transform.localPosition = candidatePosition;
-                    warrior.positionOffset = candidatePosition;
+                    warrior.positionOffset = CandidateOffset;
                     break;
                 }
 
@@ -143,7 +143,7 @@ namespace Assets.Code
 
         private bool CheckValidDistance(Vector3 candidatePosition)
         {
-            var warriorsPositions = warriors.Select(w => w.transform.localPosition).ToList();
+            var warriorsPositions = warriors.Select(w => w.transform.position).ToList();
             foreach (var position in warriorsPositions)
             {
                 if (Vector3.Distance(candidatePosition, position) <= minDistance)

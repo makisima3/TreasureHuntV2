@@ -4,7 +4,9 @@ namespace Assets.Code.InteractivOgjects
 {
     class BridgeTriggerPrefab : MonoBehaviour
     {
-        private bool isEmpty = true;
+        [SerializeField] private bool isEmpty = true;
+
+        public Bridge Bridge { get; set; }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -12,8 +14,11 @@ namespace Assets.Code.InteractivOgjects
             {
                 if (isEmpty)
                 {
-                    collector.PlacePallet(transform, transform);
-                    isEmpty = false;
+                    if (collector.PlacePallet(transform, transform))
+                    {
+                        Bridge.MoveBorder();
+                        isEmpty = false;
+                    }
                 }
             }
         }

@@ -7,6 +7,7 @@ namespace Assets.Code.CollectableObject
     {
         [SerializeField] private new Renderer renderer;
         [SerializeField] private new Collider collider;
+        [SerializeField] private DeathEffect deathEffect;
         public Animator animator;
         public Vector3 positionOffset;
 
@@ -41,6 +42,10 @@ namespace Assets.Code.CollectableObject
         public void Kill()
         {
             Warlord.Remove(this);
+
+            var effect = Instantiate(deathEffect.gameObject, null).GetComponent<DeathEffect>();
+            effect.Init(MyColor);
+            effect.transform.position = transform.position + Vector3.up * 0.1f;
 
             Destroy(this.gameObject);
         }

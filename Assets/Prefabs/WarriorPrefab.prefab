@@ -48,7 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 7283680008234744580}
   collider: {fileID: 7899287024657036994}
+  deathEffect: {fileID: 6383452923116121049, guid: f7b2fe8bfd98ae74cb7144a5b3a50cf1,
+    type: 3}
   animator: {fileID: 1035622974361740292}
+  positionOffset: {x: 0, y: 0, z: 0}
 --- !u!136 &7899287024657036994
 CapsuleCollider:
   m_ObjectHideFlags: 0

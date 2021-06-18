@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
+using Assets.Code.InteractivOgjects;
 
 namespace Assets.Code.Entities
 {
@@ -100,23 +102,32 @@ namespace Assets.Code.Entities
 
         public void CollectPallet(Pallet pallet)
         {
-            pallet.transform.position = palletPlace.position + (Vector3.up * palletOffset * myPallets.Count);
+            pallet.transform.DOMove(palletPlace.position + (Vector3.up * palletOffset * myPallets.Count), 0.1f)
+                .SetEase(Ease.Linear)
+                .OnComplete(() => pallet.transform.position = palletPlace.position + (Vector3.up * palletOffset * myPallets.Count));
+            //pallet.transform.position = palletPlace.position + (Vector3.up * palletOffset * myPallets.Count);
+            pallet.transform.rotation = palletPlace.transform.rotation;
             pallet.IsTaked = true;
             pallet.MyColor = MyColor;
-            pallet.transform.SetParent(transform);
+            pallet.transform.SetParent(palletPlace.transform);
 
             myPallets.Add(pallet);
         }
 
-        public void PlacePallet(Transform place, Transform parent)
+        public bool PlacePallet(Transform place, Transform parent)
         {
-            Pallet pallet = myPallets.Last();
+            if (myPallets.Count <= 0)
+                return false;
 
+            Pallet pallet = myPallets.Last();
             myPallets.Remove(pallet);
-            pallet.Collider.isTrigger = false;
-            pallet.transform.position = place.position;
+            pallet.Collider.enabled = false;
+            pallet.transform.DOMove(place.position, 0.1f).SetEase(Ease.Linear);
+            //pallet.transform.position = place.position;
             pallet.transform.rotation = Quaternion.identity;
             pallet.transform.SetParent(parent);
+
+            return true;
         }
 
         public void CollectMap(MapPart mapPart)
